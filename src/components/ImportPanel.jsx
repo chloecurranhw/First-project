@@ -6,7 +6,7 @@ import { generateId } from '../utils'
 import TransactionTable from './TransactionTable'
 import ConfirmDialog from './ConfirmDialog'
 
-const SYSTEM_PROMPT = `You are a bank statement parser. The user will give you raw text extracted from a digital bank statement. Extract all transactions and return them as JSON only, no explanation. Format: array of objects with fields: date (YYYY-MM-DD), description (merchant name, cleaned up), amount (positive number for debits/outgoings only), type ('debit' or 'credit'). Ignore credits, ignore opening/closing balances, ignore fee summaries. If you cannot identify clear transactions return an empty array.`
+const SYSTEM_PROMPT = `You are a bank statement parser. The user will give you raw text extracted from a digital bank statement. Extract all transactions and return them as JSON only, no explanation, no markdown. Format: array of objects with fields: date (YYYY-MM-DD), description (merchant name, cleaned up), amount (positive number for debits/outgoings only), type ('debit' or 'credit'). Ignore credits, ignore opening/closing balances, ignore fee summaries. If you cannot identify clear transactions, return an empty array.`
 
 async function loadPdfJs() {
   if (window.pdfjsLib) return window.pdfjsLib
@@ -46,7 +46,7 @@ async function callAnthropic(text, apiKey) {
       'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-5',
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: text }],
@@ -73,6 +73,7 @@ export default function ImportPanel({ onClose, monthColumns, onMonthColumnsChang
   const [rawData, setRawData]     = useState(null)     // { headers, rows }
   const [mapping, setMapping]     = useState({ dateCol: '', descCol: '', amountCol: '', amount2Col: '' })
   const [transactions, setTransactions] = useState([])
+  const [isPdf, setIsPdf]         = useState(false)
   const [viewMode, setViewMode]   = useState('all')
   const [targetMonth, setTargetMonth] = useState(defaultTargetIdx)
   const [mergeDialog, setMergeDialog] = useState(null) // { averages } when open
@@ -119,13 +120,14 @@ export default function ImportPanel({ onClose, monthColumns, onMonthColumnsChang
   }, [apiKey]) // eslint-disable-line
 
   async function handlePDF(file) {
+    setIsPdf(true)
     setLoadingMsg('Reading your statement…')
     const text = await extractPdfText(file)
 
-    const wordCount = text.replace(/\s+/g, ' ').trim().split(' ').length
-    if (wordCount < 20) {
+    if (text.length < 100) {
       setLoading(false)
-      setError('This looks like a scanned PDF. Please log into your bank\'s app or website and download your statement as CSV or Excel instead.')
+      setIsPdf(false)
+      setError('This looks like a scanned PDF rather than a digital one. We can only read digital PDFs where the text is selectable. Please log into your bank\'s app or website and download your statement as CSV or Excel instead.')
       return
     }
 
@@ -268,8 +270,9 @@ export default function ImportPanel({ onClose, monthColumns, onMonthColumnsChang
 
   const privacyNote = (
     <p className="import-privacy">
-      🔒 Your bank data is processed on your device and never uploaded anywhere.
-      {step === 'review' && transactions.length > 0 && ' '}
+      {isPdf
+        ? '🔒 Your statement is sent to Claude AI to read the transactions. No data is stored after processing.'
+        : '🔒 Your bank data is processed on your device and never uploaded anywhere.'}
     </p>
   )
 
@@ -416,10 +419,7 @@ export default function ImportPanel({ onClose, monthColumns, onMonthColumnsChang
                     Copy to monthly budget
                   </button>
                 </div>
-                <p className="import-privacy" style={{ marginTop: 6 }}>
-                  🔒 Your bank data is processed on your device and never uploaded anywhere.
-                  {transactions.some(() => false) && ' Your statement was sent to Claude AI to extract transactions. No data is stored.'}
-                </p>
+                {privacyNote}
               </div>
             </>
           )}
