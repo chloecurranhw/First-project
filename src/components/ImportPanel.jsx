@@ -57,8 +57,8 @@ async function callAnthropic(text, apiKey) {
     throw new Error(err.error?.message || `API error ${res.status}`)
   }
   const data = await res.json()
-  const raw = data.content[0]?.text || '[]'
-  // Extract JSON from response (may be wrapped in markdown)
+  const raw = (data.content[0]?.text || '[]')
+    .replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
   const jsonMatch = raw.match(/\[[\s\S]*\]/)
   return jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(raw)
 }
