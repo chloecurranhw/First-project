@@ -6,7 +6,7 @@ import { generateId } from '../utils'
 import TransactionTable from './TransactionTable'
 import ConfirmDialog from './ConfirmDialog'
 
-const SYSTEM_PROMPT = `You are a bank statement parser. The user will give you raw text extracted from a digital bank statement. Extract all transactions and return them as JSON only, no explanation. Format: array of objects with fields: date (YYYY-MM-DD), description (merchant name, cleaned up), amount (positive number for debits/outgoings only), type ('debit' or 'credit'). Ignore credits, ignore opening/closing balances, ignore fee summaries. If you cannot identify clear transactions return an empty array.`
+const SYSTEM_PROMPT = `You are a bank statement parser. The user will give you raw text extracted from a digital bank statement. Extract all transactions and return them as JSON only, no explanation, no markdown. Format: array of objects with fields: date (YYYY-MM-DD), description (merchant name, cleaned up), amount (positive number for debits/outgoings only), type ('debit' or 'credit'). Ignore credits, ignore opening/closing balances, ignore fee summaries. If you cannot identify clear transactions, return an empty array.`
 
 async function loadPdfJs() {
   if (window.pdfjsLib) return window.pdfjsLib
@@ -46,7 +46,7 @@ async function callAnthropic(text, apiKey) {
       'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-5',
+      model: 'claude-sonnet-4-20250514',
       max_tokens: 4096,
       system: SYSTEM_PROMPT,
       messages: [{ role: 'user', content: text }],
