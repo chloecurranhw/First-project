@@ -1,8 +1,10 @@
+import { useContext } from 'react'
 import { calcSavingsAmount, redistributeSavings } from '../utils/monthUtils'
-import { useFmt } from '../utils/CurrencyContext'
+import { useFmt, CurrencyContext } from '../utils/CurrencyContext'
 
 export default function SavingsRow({ savings, monthlyIncome, onChange }) {
   const fmt = useFmt()
+  const currencySymbol = useContext(CurrencyContext)
   const savingsAmt = calcSavingsAmount(savings, monthlyIncome)
   const longAmt  = monthlyIncome * (savings.longTermRate  / 100)
   const emergAmt = monthlyIncome * (savings.emergencyRate / 100)
@@ -52,7 +54,7 @@ export default function SavingsRow({ savings, monthlyIncome, onChange }) {
         </span>
 
         <div className={`amount-wrap${savings.isManualAmount ? ' amount-wrap--override' : ''}`}>
-          <span className="amount-prefix">$</span>
+          <span className="amount-prefix">{currencySymbol}</span>
           <input
             className="amount-input"
             type="number"
