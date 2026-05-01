@@ -15,7 +15,6 @@ export default function MonthlyBudget({
   savingsDefaults,
   onCopyToRetirement,
   onSwitchToRetirement,
-  apiKey,
 }) {
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [importOpen, setImportOpen] = useState(false)
@@ -142,7 +141,6 @@ export default function MonthlyBudget({
           onClose={() => setImportOpen(false)}
           monthColumns={monthColumns}
           onMonthColumnsChange={onMonthColumnsChange}
-          apiKey={apiKey}
           defaultTargetIdx={importTargetIdx}
         />
       )}

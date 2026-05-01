@@ -37,15 +37,6 @@ export default function App() {
     later:   { items: createDefaultItems(), oneOffEvents: [], banner: null },
   })
 
-  // ── API key (for PDF import) ─────────────────────────────
-  const [apiKey, setApiKey] = useState(() => localStorage.getItem('hx_api_key') || '')
-
-  function handleApiKeySave(key) {
-    setApiKey(key)
-    if (key) localStorage.setItem('hx_api_key', key)
-    else localStorage.removeItem('hx_api_key')
-  }
-
   // ── Currency ─────────────────────────────────────────────
   const [currencySymbol, setCurrencySymbol] = useState('$')
 
@@ -197,7 +188,6 @@ export default function App() {
           savingsDefaults={savingsDefaults}
           onCopyToRetirement={handleCopyToRetirement}
           onSwitchToRetirement={() => setActiveTab('retirement')}
-          apiKey={apiKey}
         />
       )}
 
@@ -338,8 +328,6 @@ export default function App() {
           defaultSavings={DEFAULT_SAVINGS}
           onSave={setSettings}
           onSaveSavingsDefaults={setSavingsDefaults}
-          apiKey={apiKey}
-          onApiKeySave={handleApiKeySave}
           onClose={() => setSettingsOpen(false)}
         />
       )}

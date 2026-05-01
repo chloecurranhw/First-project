@@ -4,7 +4,6 @@ export default function SettingsModal({
   settings, defaultSettings,
   savingsDefaults, defaultSavings,
   onSave, onSaveSavingsDefaults,
-  apiKey, onApiKeySave,
   onClose,
 }) {
   const [generalInflation,   setGeneralInflation]   = useState(settings.generalInflation)
@@ -14,8 +13,6 @@ export default function SettingsModal({
   const [totalRate,    setTotalRate]    = useState(savingsDefaults.totalRate)
   const [longTermRate, setLongTermRate] = useState(savingsDefaults.longTermRate)
   const [emergencyRate, setEmergencyRate] = useState(savingsDefaults.emergencyRate)
-  const [apiKeyInput, setApiKeyInput] = useState(apiKey || '')
-  const [showKey, setShowKey] = useState(false)
 
   function handleReset() {
     setGeneralInflation(defaultSettings.generalInflation)
@@ -39,7 +36,6 @@ export default function SettingsModal({
       longTermRate: Number(longTermRate) || 10,
       emergencyRate: Number(emergencyRate) || 10,
     })
-    onApiKeySave(apiKeyInput.trim())
     onClose()
   }
 
@@ -148,30 +144,6 @@ export default function SettingsModal({
             </p>
           )}
 
-          <div className="modal-divider" />
-
-          {/* ── API key ── */}
-          <p className="modal-section-label">Anthropic API key</p>
-          <p className="modal-hint">Required for importing PDF bank statements. Stored locally in your browser only.</p>
-
-          <div className="setting-row" style={{ alignItems: 'center' }}>
-            <label htmlFor="api-key">API key</label>
-            <div className="api-key-wrap">
-              <input
-                id="api-key"
-                type={showKey ? 'text' : 'password'}
-                value={apiKeyInput}
-                onChange={e => setApiKeyInput(e.target.value)}
-                placeholder="sk-ant-…"
-                className="api-key-input"
-                autoComplete="off"
-                spellCheck={false}
-              />
-              <button type="button" className="api-key-toggle" onClick={() => setShowKey(v => !v)}>
-                {showKey ? 'Hide' : 'Show'}
-              </button>
-            </div>
-          </div>
         </div>
 
         <div className="modal-footer">

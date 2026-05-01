@@ -117,8 +117,11 @@ export default function RetirementSummary({
           {jurisdiction && splitValid && (
             <>
               <span className="summary-assumption-label">Income split</span>
-              <span className="summary-assumption-value">
-                Pension {incomeTypeSplit.pension}% · Investment {incomeTypeSplit.investment}% · Rental {incomeTypeSplit.rental}% · Other {incomeTypeSplit.other}%
+              <span className="summary-assumption-value" style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <span>Pension {incomeTypeSplit.pension}%</span>
+                <span>Investment {incomeTypeSplit.investment}%</span>
+                <span>Rental {incomeTypeSplit.rental}%</span>
+                <span>Other {incomeTypeSplit.other}%</span>
               </span>
             </>
           )}
