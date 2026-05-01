@@ -1,7 +1,8 @@
 export function toAnnual(amount, frequency) {
   const amt = parseFloat(amount) || 0
-  if (frequency === 'weekly') return amt * 52
-  if (frequency === 'monthly') return amt * 12
+  if (frequency === 'weekly')    return amt * 52
+  if (frequency === 'monthly')   return amt * 12
+  if (frequency === 'quarterly') return amt * 4
   return amt
 }
 

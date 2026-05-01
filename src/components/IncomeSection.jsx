@@ -33,6 +33,7 @@ export default function IncomeSection({ items, monthId, onItemsChange }) {
           >
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
+            <option value="quarterly">Quarterly</option>
             <option value="annually">Annually</option>
           </select>
           <div className="amount-wrap">

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import {
   DndContext,
   DragOverlay,
@@ -12,7 +12,7 @@ import Section from './Section'
 import LineItem from './LineItem'
 import Banner from './Banner'
 import { toAnnual, generateId } from '../utils'
-import { useFmt } from '../utils/CurrencyContext'
+import { CurrencyContext, useFmt } from '../utils/CurrencyContext'
 
 export default function Column({
   columnId,
@@ -30,6 +30,7 @@ export default function Column({
   const [dragState, setDragState] = useState(null)
   const [overId, setOverId] = useState(null)
   const fmt = useFmt()
+  const currencySymbol = useContext(CurrencyContext)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -222,7 +223,7 @@ export default function Column({
               value={event.age}
               onChange={e => updateOneOffEvent(event.id, 'age', e.target.value)}
             />
-            <span className="one-off-currency">$</span>
+            <span className="one-off-currency">{currencySymbol}</span>
             <input
               className="one-off-input one-off-input--amount"
               type="number"
