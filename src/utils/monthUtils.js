@@ -79,8 +79,9 @@ export function createDefaultMonths(count, savingsDefaults) {
 
 export function toMonthly(amount, frequency) {
   const amt = parseFloat(amount) || 0
-  if (frequency === 'weekly')   return (amt * 52) / 12
-  if (frequency === 'annually') return amt / 12
+  if (frequency === 'weekly')    return (amt * 52) / 12
+  if (frequency === 'quarterly') return amt / 3
+  if (frequency === 'annually')  return amt / 12
   return amt
 }
 

@@ -5,7 +5,7 @@ export const CURRENCIES = [
   { code: 'GBP', symbol: '£',    label: 'GBP (£)' },
   { code: 'EUR', symbol: '€',    label: 'EUR (€)' },
   { code: 'AUD', symbol: 'A$',   label: 'AUD (A$)' },
-  { code: 'AED', symbol: 'د.إ ', label: 'AED (د.إ)' },
+  { code: 'AED', symbol: 'AED', label: 'AED' },
 ]
 
 export const CurrencyContext = createContext('$')

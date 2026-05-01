@@ -1,8 +1,10 @@
 import { calcMonthlyIncome, calcMonthlyExpenses } from '../utils/monthUtils'
-import { useFmt } from '../utils/CurrencyContext'
+import { useContext } from 'react'
+import { CurrencyContext, useFmt } from '../utils/CurrencyContext'
 
 export default function EmergencyFundTracker({ monthColumns, state, onChange }) {
   const fmt = useFmt()
+  const currencySymbol = useContext(CurrencyContext)
   const avgMonthlyExpenses = monthColumns.length
     ? monthColumns.reduce((s, m) => s + calcMonthlyExpenses(m.expenses), 0) / monthColumns.length
     : 0
@@ -43,7 +45,7 @@ export default function EmergencyFundTracker({ monthColumns, state, onChange }) 
         <div className="ef-input-row">
           <label>How much do you already have saved in your emergency fund?</label>
           <div className="amount-wrap" style={{ width: 130 }}>
-            <span className="amount-prefix">$</span>
+            <span className="amount-prefix">{currencySymbol}</span>
             <input
               type="number"
               min="0"

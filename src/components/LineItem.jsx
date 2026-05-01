@@ -1,4 +1,8 @@
+import { useContext } from 'react'
+import { CurrencyContext } from '../utils/CurrencyContext'
+
 export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay }) {
+  const currencySymbol = useContext(CurrencyContext)
   return (
     <div className={`line-item${isOverlay ? ' line-item--overlay' : ''}`}>
       <span
@@ -26,11 +30,12 @@ export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay })
       >
         <option value="weekly">Weekly</option>
         <option value="monthly">Monthly</option>
+        <option value="quarterly">Quarterly</option>
         <option value="annually">Annually</option>
       </select>
 
       <div className="amount-wrap">
-        <span className="amount-prefix">$</span>
+        <span className="amount-prefix">{currencySymbol}</span>
         <input
           className="amount-input"
           type="number"

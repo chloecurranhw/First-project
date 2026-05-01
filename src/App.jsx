@@ -140,12 +140,14 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div className="header-left">
-          <img
-            src="/HoxtonWealth_Lockup_Deep_Green-RGB.png"
-            alt="HoxtonWealth Planner"
-            className="header-logo"
-            onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'block' }}
-          />
+          <a href="https://www.hoxtonwealth.com" target="_blank" rel="noopener noreferrer" style={{ lineHeight: 0, border: 'none' }}>
+            <img
+              src="/HoxtonWealth_Lockup_Deep_Green-RGB.png"
+              alt="HoxtonWealth Planner"
+              className="header-logo"
+              onError={e => { e.currentTarget.style.display = 'none'; e.currentTarget.nextSibling.style.display = 'block' }}
+            />
+          </a>
           <h1 className="app-title" style={{ display: 'none' }}>HoxtonWealth Planner</h1>
           <TabBar activeTab={activeTab} onTabChange={setActiveTab} />
         </div>
