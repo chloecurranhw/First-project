@@ -1,8 +1,29 @@
 import { useContext } from 'react'
 import { CurrencyContext } from '../utils/CurrencyContext'
 
+function parseLabelPaste(text) {
+  const trimmed = text.trim()
+  const match = trimmed.match(/^(.+?)\s+[$£€¥₹]?(\d[\d,]*(?:\.\d{1,2})?)\s*$/)
+  if (!match) return null
+  const label = match[1].trim()
+  const amount = match[2].replace(/,/g, '')
+  const hasDecimal = amount.includes('.')
+  const digitCount = amount.replace('.', '').length
+  if (!label || (!hasDecimal && digitCount < 3)) return null
+  return { label, amount }
+}
+
 export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay }) {
   const currencySymbol = useContext(CurrencyContext)
+
+  function handleLabelPaste(e) {
+    const text = e.clipboardData.getData('text')
+    const parsed = parseLabelPaste(text)
+    if (!parsed) return
+    e.preventDefault()
+    onUpdate?.(parsed)
+  }
+
   return (
     <div className={`line-item${isOverlay ? ' line-item--overlay' : ''}`}>
       <span
@@ -18,6 +39,7 @@ export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay })
         type="text"
         value={item.label}
         onChange={e => onUpdate?.('label', e.target.value)}
+        onPaste={isOverlay ? undefined : handleLabelPaste}
         placeholder="Item name"
         readOnly={isOverlay}
       />

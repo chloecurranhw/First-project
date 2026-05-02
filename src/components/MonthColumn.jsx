@@ -66,8 +66,9 @@ export default function MonthColumn({ month, onUpdate, onNameChange, onImport })
     onUpdate({ expenses: final })
   }
 
-  function updateExpenseItem(id, field, value) {
-    onUpdate({ expenses: month.expenses.map(i => i.id === id ? { ...i, [field]: value } : i) })
+  function updateExpenseItem(id, fieldOrPatch, value) {
+    const patch = typeof fieldOrPatch === 'object' ? fieldOrPatch : { [fieldOrPatch]: value }
+    onUpdate({ expenses: month.expenses.map(i => i.id === id ? { ...i, ...patch } : i) })
   }
 
   function addExpenseItem(category) {
