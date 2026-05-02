@@ -1,10 +1,12 @@
-import { useContext } from 'react'
+import { useState, useContext } from 'react'
 import { calcSavingsAmount, redistributeSavings } from '../utils/monthUtils'
 import { useFmt, CurrencyContext } from '../utils/CurrencyContext'
 
 export default function SavingsRow({ savings, monthlyIncome, onChange }) {
   const fmt = useFmt()
   const currencySymbol = useContext(CurrencyContext)
+  const [draftAmount, setDraftAmount] = useState(null)
+
   const savingsAmt = calcSavingsAmount(savings, monthlyIncome)
   const longAmt  = monthlyIncome * (savings.longTermRate  / 100)
   const emergAmt = monthlyIncome * (savings.emergencyRate / 100)
@@ -19,12 +21,22 @@ export default function SavingsRow({ savings, monthlyIncome, onChange }) {
     }
   }
 
-  function handleManualAmount(e) {
-    onChange({ ...savings, isManualAmount: true, manualAmount: e.target.value })
+  function handleAmountFocus() {
+    setDraftAmount(savingsAmt > 0 ? String(Math.round(savingsAmt)) : '')
   }
 
-  function clearManualOverride() {
-    onChange({ ...savings, isManualAmount: false, manualAmount: '' })
+  function handleAmountChange(e) {
+    const raw = e.target.value
+    setDraftAmount(raw)
+    const amt = parseFloat(raw) || 0
+    if (monthlyIncome > 0) {
+      const newRate = Math.round((amt / monthlyIncome) * 1000) / 10
+      onChange(redistributeSavings(savings, 'totalRate', String(newRate)))
+    }
+  }
+
+  function handleAmountBlur() {
+    setDraftAmount(null)
   }
 
   return (
@@ -53,29 +65,22 @@ export default function SavingsRow({ savings, monthlyIncome, onChange }) {
           <span className="savings-rate-pct">% of income</span>
         </span>
 
-        <div className={`amount-wrap${savings.isManualAmount ? ' amount-wrap--override' : ''}`}>
+        <div className="amount-wrap">
           <span className="amount-prefix">{currencySymbol}</span>
           <input
             className="amount-input"
             type="number"
             min="0"
-            value={savings.isManualAmount ? savings.manualAmount : (savingsAmt > 0 ? savingsAmt.toFixed(2) : '')}
-            onChange={handleManualAmount}
-            placeholder={savingsAmt > 0 ? savingsAmt.toFixed(0) : '0'}
+            value={draftAmount !== null ? draftAmount : (savingsAmt > 0 ? String(Math.round(savingsAmt)) : '')}
+            onChange={handleAmountChange}
+            onFocus={handleAmountFocus}
+            onBlur={handleAmountBlur}
+            placeholder="0"
           />
         </div>
-
-        {savings.isManualAmount && (
-          <button className="override-clear-btn" onClick={clearManualOverride} title="Revert to auto-calculated">↺</button>
-        )}
       </div>
 
-      {!savings.isManualAmount && (
-        <p className="savings-note">Auto-calculated at {savings.totalRate}% of income</p>
-      )}
-      {savings.isManualAmount && (
-        <p className="savings-note savings-note--override">Manual override — click ↺ to revert</p>
-      )}
+      <p className="savings-note">Auto-calculated at {savings.totalRate}% of income</p>
 
       {/* Expandable sub-rows */}
       {savings.expanded && (
