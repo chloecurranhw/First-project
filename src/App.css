@@ -1169,6 +1169,31 @@ body {
 
 .ef-number-input:focus { border-color: var(--accent); }
 
+.ef-contribution-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.ef-contribution-pct-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ef-contribution-unit {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.ef-contribution-sep {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  padding: 0 2px;
+}
+
 .ef-calculations {
   display: flex;
   flex-direction: column;
