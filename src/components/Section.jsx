@@ -20,7 +20,7 @@ export default function Section({ items, category, columnId, onUpdateItem, onAdd
             <SortableLineItem
               key={item.id}
               item={item}
-              onUpdate={(field, value) => onUpdateItem(item.id, field, value)}
+              onUpdate={(fieldOrPatch, value) => onUpdateItem(item.id, fieldOrPatch, value)}
               isDropTarget={overId === item.id}
             />
           ))}
