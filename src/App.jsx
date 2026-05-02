@@ -57,7 +57,7 @@ export default function App() {
   const [monthCount, setMonthCount] = useState(3)
   const [savingsDefaults, setSavingsDefaults] = useState(DEFAULT_SAVINGS)
   const [monthColumns, setMonthColumns] = useState(() => createDefaultMonths(3, DEFAULT_SAVINGS))
-  const [emergencyFundState, setEmergencyFundState] = useState({ targetMonths: 3, existingSavings: 0 })
+  const [emergencyFundState, setEmergencyFundState] = useState({ targetMonths: 3, existingSavings: 0, contributionPct: 0 })
 
   // ── Retirement helpers ────────────────────────────────────
   function handleRetirementItemsChange(columnId, items) {
@@ -122,7 +122,7 @@ export default function App() {
     setMonthCount(3)
     setSavingsDefaults(DEFAULT_SAVINGS)
     setMonthColumns(createDefaultMonths(3, DEFAULT_SAVINGS))
-    setEmergencyFundState({ targetMonths: 3, existingSavings: 0 })
+    setEmergencyFundState({ targetMonths: 3, existingSavings: 0, contributionPct: 0 })
     setResetConfirm(false)
   }
 
