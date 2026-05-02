@@ -60,8 +60,6 @@ export function createMonth(name, savingsDefaults = { totalRate: 20, longTermRat
       totalRate: savingsDefaults.totalRate,
       longTermRate: savingsDefaults.longTermRate,
       emergencyRate: savingsDefaults.emergencyRate,
-      isManualAmount: false,
-      manualAmount: '',
       expanded: false,
     },
   }
@@ -94,7 +92,6 @@ export function calcMonthlyExpenses(expenseItems) {
 }
 
 export function calcSavingsAmount(savings, monthlyIncome) {
-  if (savings.isManualAmount) return parseFloat(savings.manualAmount) || 0
   return monthlyIncome * (savings.totalRate / 100)
 }
 
