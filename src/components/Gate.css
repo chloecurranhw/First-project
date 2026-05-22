@@ -1,0 +1,263 @@
+:root {
+  --hw-dark: #033839;
+  --hw-teal: #1ab0c4;
+  --hw-teal-dark: #158fa0;
+  --hw-sage: #B3D3CF;
+  --hw-sage-light: #d9ecea;
+  --hw-mid: #2E5959;
+  --hw-grey: #6B8E8D;
+  --hw-white: #FDFDFD;
+  --hw-bg: #f7fafa;
+  --hw-radius: 12px;
+  --hw-shadow: 0 2px 12px rgba(3, 56, 57, 0.08);
+  --hw-shadow-lg: 0 8px 32px rgba(3, 56, 57, 0.12);
+}
+
+.gate-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 16px;
+  background: var(--hw-bg);
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  color: var(--hw-dark);
+}
+
+.gate-card {
+  width: 100%;
+  max-width: 520px;
+  min-height: 540px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: var(--hw-shadow-lg);
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.gate-header {
+  padding: 24px 28px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gate-logo {
+  height: 28px;
+  width: auto;
+}
+
+.gate-screen {
+  display: none;
+  flex-direction: column;
+  flex: 1;
+  padding: 20px 28px 28px;
+  animation: gate-fade 0.3s ease;
+}
+
+.gate-screen.active {
+  display: flex;
+}
+
+@keyframes gate-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Welcome screen ────────────────────────────────────────── */
+
+.gate-welcome-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--hw-sage-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto 18px;
+  color: var(--hw-teal);
+}
+
+.gate-welcome-title {
+  font-size: 22px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 8px;
+  color: var(--hw-dark);
+}
+
+.gate-welcome-desc {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--hw-mid);
+  text-align: center;
+  margin: 0 0 20px;
+}
+
+.gate-welcome-meta {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.gate-welcome-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--hw-grey);
+}
+
+.gate-welcome-meta-item svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Form screen ───────────────────────────────────────────── */
+
+.gate-form-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin: 8px 0 6px;
+  color: var(--hw-dark);
+}
+
+.gate-form-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--hw-mid);
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.gate-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.gate-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.gate-form-group.full {
+  grid-column: 1 / -1;
+}
+
+.gate-form-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--hw-mid);
+}
+
+.gate-form-input,
+.gate-form-select {
+  padding: 12px 14px;
+  border: 1.5px solid #e2e8e8;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--hw-dark);
+  background: #fff;
+  transition: border-color 0.2s;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gate-form-input:focus,
+.gate-form-select:focus {
+  border-color: var(--hw-teal);
+}
+
+.gate-form-group.error .gate-form-input,
+.gate-form-group.error .gate-form-select {
+  border-color: #e74c3c;
+}
+
+.gate-form-error {
+  display: none;
+  font-size: 11px;
+  color: #e74c3c;
+  margin-top: 2px;
+}
+
+.gate-form-group.error .gate-form-error {
+  display: block;
+}
+
+.gate-phone-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 8px;
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+
+.gate-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  background: var(--hw-teal);
+  color: #fff;
+  border: none;
+  border-radius: var(--hw-radius);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  width: 100%;
+  margin-top: auto;
+}
+
+.gate-btn-primary:hover {
+  background: var(--hw-teal-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 176, 196, 0.3);
+}
+
+.gate-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.gate-btn-primary svg {
+  width: 16px;
+  height: 16px;
+}
+
+.gate-privacy-note {
+  font-size: 11px;
+  color: var(--hw-grey);
+  text-align: center;
+  margin: 14px 0 0;
+  line-height: 1.5;
+}
+
+/* ── Mobile ────────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .gate-root { padding: 0; }
+  .gate-card {
+    border-radius: 0;
+    min-height: 100vh;
+    max-width: 100%;
+    max-height: none;
+  }
+  .gate-form-grid { grid-template-columns: 1fr; }
+}
