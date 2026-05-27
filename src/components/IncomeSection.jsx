@@ -36,6 +36,7 @@ export default function IncomeSection({ items, monthId, onItemsChange }) {
             value={item.label}
             onChange={e => update(item.id, 'label', e.target.value)}
             placeholder="Income source"
+            autoFocus={!item.label && !item.amount}
           />
           <select
             className="frequency-select"

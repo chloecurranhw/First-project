@@ -48,6 +48,7 @@ export default function LineItem({ item, onUpdate, onRemoveIfEmpty, dragHandlePr
         onPaste={isOverlay ? undefined : handleLabelPaste}
         placeholder="Item name"
         readOnly={isOverlay}
+        autoFocus={!isOverlay && !item.label && !item.amount}
       />
 
       <select
