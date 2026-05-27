@@ -13,13 +13,24 @@ export default function IncomeSection({ items, monthId, onItemsChange }) {
   function addItem() {
     onItemsChange([...items, { id: generateId(), label: '', frequency: 'monthly', amount: '' }])
   }
+  function removeItem(id) {
+    onItemsChange(items.filter(i => i.id !== id))
+  }
   const total = items.reduce((s, i) => s + toMonthly(i.amount, i.frequency), 0)
 
   return (
     <div className="income-section">
       <h3 className="section-title">Income</h3>
       {items.map(item => (
-        <div key={item.id} className="line-item line-item--income">
+        <div
+          key={item.id}
+          className="line-item line-item--income"
+          onBlur={e => {
+            if (!e.currentTarget.contains(e.relatedTarget) && !item.label && !item.amount) {
+              removeItem(item.id)
+            }
+          }}
+        >
           <input
             className="label-input"
             value={item.label}

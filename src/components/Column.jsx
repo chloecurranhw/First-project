@@ -113,6 +113,10 @@ export default function Column({
     onItemsChange(columnId, updated)
   }
 
+  function handleRemoveItem(id) {
+    onItemsChange(columnId, items.filter(i => i.id !== id))
+  }
+
   function handleAddItem(category) {
     const newItem = {
       id: generateId(),
@@ -180,6 +184,7 @@ export default function Column({
             category="needs"
             columnId={columnId}
             onUpdateItem={handleUpdateItem}
+            onRemoveItem={handleRemoveItem}
             onAddItem={handleAddItem}
             overId={overId}
           />
@@ -188,6 +193,7 @@ export default function Column({
             category="wants"
             columnId={columnId}
             onUpdateItem={handleUpdateItem}
+            onRemoveItem={handleRemoveItem}
             onAddItem={handleAddItem}
             overId={overId}
           />

@@ -13,7 +13,7 @@ function parseLabelPaste(text) {
   return { label, amount }
 }
 
-export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay }) {
+export default function LineItem({ item, onUpdate, onRemoveIfEmpty, dragHandleProps, isOverlay }) {
   const currencySymbol = useContext(CurrencyContext)
 
   function handleLabelPaste(e) {
@@ -24,8 +24,14 @@ export default function LineItem({ item, onUpdate, dragHandleProps, isOverlay })
     onUpdate?.(parsed)
   }
 
+  function handleBlur(e) {
+    if (!e.currentTarget.contains(e.relatedTarget) && !item.label && !item.amount) {
+      onRemoveIfEmpty?.()
+    }
+  }
+
   return (
-    <div className={`line-item${isOverlay ? ' line-item--overlay' : ''}`}>
+    <div className={`line-item${isOverlay ? ' line-item--overlay' : ''}`} onBlur={handleBlur}>
       <span
         className="drag-handle"
         title="Drag to reorder"

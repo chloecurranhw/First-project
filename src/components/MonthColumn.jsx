@@ -77,6 +77,10 @@ export default function MonthColumn({ month, onUpdate, onNameChange, onImport })
     })
   }
 
+  function removeExpenseItem(id) {
+    onUpdate({ expenses: month.expenses.filter(i => i.id !== id) })
+  }
+
   const monthlyIncome   = calcMonthlyIncome(month.income)
   const monthlyExpenses = calcMonthlyExpenses(month.expenses)
   const savingsAmt      = calcSavingsAmount(month.savings, monthlyIncome)
@@ -132,6 +136,7 @@ export default function MonthColumn({ month, onUpdate, onNameChange, onImport })
             category="needs"
             columnId={month.id}
             onUpdateItem={updateExpenseItem}
+            onRemoveItem={removeExpenseItem}
             onAddItem={addExpenseItem}
             overId={overId}
           />
@@ -140,6 +145,7 @@ export default function MonthColumn({ month, onUpdate, onNameChange, onImport })
             category="wants"
             columnId={month.id}
             onUpdateItem={updateExpenseItem}
+            onRemoveItem={removeExpenseItem}
             onAddItem={addExpenseItem}
             overId={overId}
           />

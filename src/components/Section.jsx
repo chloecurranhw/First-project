@@ -2,7 +2,7 @@ import { useDroppable } from '@dnd-kit/core'
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 import SortableLineItem from './SortableLineItem'
 
-export default function Section({ items, category, columnId, onUpdateItem, onAddItem, overId }) {
+export default function Section({ items, category, columnId, onUpdateItem, onRemoveItem, onAddItem, overId }) {
   const droppableId = `${columnId}-${category}`
   const { setNodeRef, isOver } = useDroppable({ id: droppableId })
 
@@ -21,6 +21,7 @@ export default function Section({ items, category, columnId, onUpdateItem, onAdd
               key={item.id}
               item={item}
               onUpdate={(fieldOrPatch, value) => onUpdateItem(item.id, fieldOrPatch, value)}
+              onRemoveIfEmpty={() => onRemoveItem(item.id)}
               isDropTarget={overId === item.id}
             />
           ))}

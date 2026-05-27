@@ -2,7 +2,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import LineItem from './LineItem'
 
-export default function SortableLineItem({ item, onUpdate, isDropTarget }) {
+export default function SortableLineItem({ item, onUpdate, onRemoveIfEmpty, isDropTarget }) {
   const {
     attributes,
     listeners,
@@ -30,6 +30,7 @@ export default function SortableLineItem({ item, onUpdate, isDropTarget }) {
       <LineItem
         item={item}
         onUpdate={onUpdate}
+        onRemoveIfEmpty={onRemoveIfEmpty}
         dragHandleProps={{ ...attributes, ...listeners }}
       />
     </div>
