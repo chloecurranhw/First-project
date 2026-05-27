@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocalStorage } from './utils/useLocalStorage'
 import Column from './components/Column'
 import SettingsModal from './components/SettingsModal'
 import TabBar from './components/TabBar'
@@ -22,29 +23,29 @@ const DEFAULT_SAVINGS = { totalRate: 20, longTermRate: 10, emergencyRate: 10 }
 const DEFAULT_SETTINGS = { travelReduction: 20, healthcareIncrease: 30, generalInflation: 2, healthcareInflation: 4 }
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('monthly')
+  const [activeTab, setActiveTab] = useLocalStorage('planner-activeTab', 'monthly')
   const [resetConfirm, setResetConfirm] = useState(false)
 
   // ── Retirement planner state ─────────────────────────────
-  const [currentAge, setCurrentAge] = useState(45)
-  const [retirementAge, setRetirementAge] = useState(65)
-  const [phaseAge, setPhaseAge] = useState(75)
+  const [currentAge, setCurrentAge] = useLocalStorage('planner-currentAge', 45)
+  const [retirementAge, setRetirementAge] = useLocalStorage('planner-retirementAge', 65)
+  const [phaseAge, setPhaseAge] = useLocalStorage('planner-phaseAge', 75)
   const [settingsOpen, setSettingsOpen] = useState(false)
-  const [settings, setSettings] = useState(DEFAULT_SETTINGS)
-  const [columns, setColumns] = useState({
+  const [settings, setSettings] = useLocalStorage('planner-settings', DEFAULT_SETTINGS)
+  const [columns, setColumns] = useLocalStorage('planner-columns', {
     current: { items: createDefaultItems(), oneOffEvents: [] },
     active:  { items: createDefaultItems(), oneOffEvents: [] },
     later:   { items: createDefaultItems(), oneOffEvents: [], banner: null },
   })
 
   // ── Currency ─────────────────────────────────────────────
-  const [currencySymbol, setCurrencySymbol] = useState('$')
+  const [currencySymbol, setCurrencySymbol] = useLocalStorage('planner-currency', '$')
 
   // ── Tax gross-up state ───────────────────────────────────
-  const [jurisdiction, setJurisdiction] = useState('')
-  const [incomeTypeSplit, setIncomeTypeSplit] = useState({ pension: 100, investment: 0, rental: 0, other: 0 })
-  const [dualJurisdiction, setDualJurisdiction] = useState(false)
-  const [pensionOriginCountry, setPensionOriginCountry] = useState('')
+  const [jurisdiction, setJurisdiction] = useLocalStorage('planner-jurisdiction', '')
+  const [incomeTypeSplit, setIncomeTypeSplit] = useLocalStorage('planner-incomeTypeSplit', { pension: 100, investment: 0, rental: 0, other: 0 })
+  const [dualJurisdiction, setDualJurisdiction] = useLocalStorage('planner-dualJurisdiction', false)
+  const [pensionOriginCountry, setPensionOriginCountry] = useLocalStorage('planner-pensionOriginCountry', '')
 
   function handleJurisdictionChange(jur) {
     setJurisdiction(jur)
@@ -54,10 +55,10 @@ export default function App() {
   }
 
   // ── Monthly budget state ─────────────────────────────────
-  const [monthCount, setMonthCount] = useState(3)
-  const [savingsDefaults, setSavingsDefaults] = useState(DEFAULT_SAVINGS)
-  const [monthColumns, setMonthColumns] = useState(() => createDefaultMonths(3, DEFAULT_SAVINGS))
-  const [emergencyFundState, setEmergencyFundState] = useState({ targetMonths: 3, existingSavings: 0, contributionPct: 0 })
+  const [monthCount, setMonthCount] = useLocalStorage('planner-monthCount', 3)
+  const [savingsDefaults, setSavingsDefaults] = useLocalStorage('planner-savingsDefaults', DEFAULT_SAVINGS)
+  const [monthColumns, setMonthColumns] = useLocalStorage('planner-monthColumns', () => createDefaultMonths(3, DEFAULT_SAVINGS))
+  const [emergencyFundState, setEmergencyFundState] = useLocalStorage('planner-emergencyFund', { targetMonths: 3, existingSavings: 0, contributionPct: 0 })
 
   // ── Retirement helpers ────────────────────────────────────
   function handleRetirementItemsChange(columnId, items) {
